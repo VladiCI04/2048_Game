@@ -33,10 +33,10 @@ short randomNumberGenerator(size_t moveCount);
 void printBoard(size_t** board, short dimension);
 void playGame(size_t** board, short const dimension, size_t& moveCount);
 bool isBoardFull(size_t** board, short const dimension);
-void moveUp(size_t** board, short const dimension);
-void moveLeft(size_t** board, short const dimension);
-void moveDown(size_t** board, short const dimension);
-void moveRight(size_t** board, short const dimension);
+bool moveUp(size_t** board, short const dimension);
+bool moveLeft(size_t** board, short const dimension);
+bool moveDown(size_t** board, short const dimension);
+bool moveRight(size_t** board, short const dimension);
 void printLeaderboard();
 
 int main()
@@ -196,6 +196,8 @@ void printBoard(size_t** board, short dimension) {
 }
 
 void playGame(size_t** board, short const dimension, size_t& moveCount) {
+    bool isWin = false;
+
     while (!isBoardFull(board, dimension)) {
         std::cout << std::endl;
         std::cout << "Enter diretction (Direction should be w, a, s or d): " << std::endl;
@@ -203,16 +205,16 @@ void playGame(size_t** board, short const dimension, size_t& moveCount) {
         std::cin >> direction;
 
         if (direction == 'w') {
-            moveUp(board, dimension);
+            isWin = moveUp(board, dimension);
         } 
         else if (direction == 'a') {
-            moveLeft(board, dimension);
+            isWin = moveLeft(board, dimension);
         } 
         else if (direction == 's') {
-            moveDown(board, dimension);
+            isWin = moveDown(board, dimension);
         } 
         else if (direction == 'd') {
-            moveRight(board, dimension);
+            isWin = moveRight(board, dimension);
         }
         else {
             std::cout << std::endl;
@@ -220,9 +222,20 @@ void playGame(size_t** board, short const dimension, size_t& moveCount) {
             return;
         }
 
+        if (isWin) {
+            break;
+        }
+
         moveCount++;
         addNumToBoard(board, moveCount);
         printBoard(board, dimension);
+    }
+   
+    if (isWin) {
+        std::cout << "You win!" << std::endl;
+    }
+    else {
+        std::cout << "You lose! Try again!" << std::endl;
     }
 }
 
@@ -240,52 +253,92 @@ bool isBoardFull(size_t** board, short const dimension) {
     return true;
 }
 
-void moveUp(size_t** board, short const dimension) {
+bool moveUp(size_t** board, short const dimension) {
+    bool isElement2048 = false;
+
     for (size_t row = 1; row < dimension; row++) {
         for (size_t col = 0; col < dimension; col++) {
             size_t element = board[row][col];
             
             if (element != 0) {
                 board[row - 1][col] += element;
+                board[row][col] = 0;
+
+                size_t element2 = board[row - 1][col];
+                if (element2 >= 2048) {
+                    isElement2048 = true;
+                }
             }
         }
     }
+
+    return isElement2048;
 }
 
-void moveLeft(size_t** board, short const dimension) {
+bool moveLeft(size_t** board, short const dimension) {
+    bool isElement2048 = false;
+
     for (size_t row = 0; row < dimension; row++) {
         for (size_t col = 1; col < dimension; col++) {
             size_t element = board[row][col];
 
             if (element != 0) {
                 board[row][col - 1] += element;
+                board[row][col] = 0;
+
+                size_t element2 = board[row][col - 1];
+                if (element2 >= 2048) {
+                    isElement2048 = true;
+                }
             }
         }
     }
+
+    return isElement2048;
 }
 
-void moveDown(size_t** board, short const dimension) {
+bool moveDown(size_t** board, short const dimension) {
+    bool isElement2048 = false;
+
     for (size_t row = 0; row < dimension - 1; row++) {
         for (size_t col = 0; col < dimension; col++) {
             size_t element = board[row][col];
 
             if (element != 0) {
                 board[row + 1][col] += element;
+                board[row][col] = 0;
+
+                size_t element2 = board[row + 1][col];
+                if (element2 >= 2048) {
+                    isElement2048 = true;
+                }
             }
         }
     }
+
+    return isElement2048;
 }
 
-void moveRight(size_t** board, short const dimension) {
+bool moveRight(size_t** board, short const dimension) {
+    bool isElement2048 = false;
+
     for (size_t row = 0; row < dimension; row++) {
         for (size_t col = 0; col < dimension - 1; col++) {
             size_t element = board[row][col];
+            board[row][col] = 0;
 
             if (element != 0) {
                 board[row][col + 1] += element;
+
+                size_t element2 = board[row][col + 1];
+                if (element2 >= 2048) {
+                    isElement2048 = true;
+                }
             }
         }
     }
+
+    return isElement2048;
 }
 
 void printLeaderboard() {
