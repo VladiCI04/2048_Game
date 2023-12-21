@@ -21,31 +21,25 @@ char LeaderboardName5[] = "Unknown"; // Leaderboard5
 size_t LeaderboardPoints5 = 0;
 
 // Function Declaration
-bool gameMenu();
+void gameMenu();
 void printGameMenu();
 void startNewGame();
+void printStartNewGameTitle();
+short enterDimension();
 size_t** createBoard(short const dimension);
 void addNumToBoard(size_t** board, size_t moveCount);
 short randomIndexGenerator();
 short randomNumberGenerator(size_t moveCount);
 void printBoard(size_t** board, short dimension);
-void leaderboard();
+void printLeaderboard();
 
 int main()
 {
     // Start Game
-    bool play = gameMenu();
-
-    // Exit Game
-    if (!play)
-    {
-        std::cout << std::endl;
-        std::cout << "Goodbye!" << std::endl;
-        return 0;
-    }
+    gameMenu();
 }
 
-bool gameMenu() {
+void gameMenu() {
     // Print Game Menu
     printGameMenu();
 
@@ -56,10 +50,10 @@ bool gameMenu() {
         startNewGame();
     }
     else if (answer == 2) {  // Leaderboard
-        leaderboard();
+        printLeaderboard();
     } 
     else if (answer == 3) {  // Quit
-        return false;
+        return;
     }  
     else {  // Wrong Input
         std::cout << "Wrong input! (Answer should be 1, 2 or 3)";
@@ -70,7 +64,6 @@ bool gameMenu() {
 }
 
 void printGameMenu() {
-    // Print Game Menu
     std::cout << "---------------------" << std::endl;
     std::cout << "| 2048 Game         |" << std::endl;
     std::cout << "|                   |" << std::endl;
@@ -82,9 +75,8 @@ void printGameMenu() {
 }
 
 void startNewGame() {
-    // Start New Game
-    std::cout << std::endl;
-    std::cout << "-------------------2048 Game-----------------" << std::endl;
+    // Start New Game Title
+    printStartNewGameTitle();
     
     // Enter Nickname
     std::cout << "Enter your nickname: ";
@@ -92,14 +84,7 @@ void startNewGame() {
     std::cin >> playerName;
 
     // Enter Dimention
-    std::cout << "Enter dimention (Dimention should be between 4 and 10): ";
-    short dimension;
-    std::cin >> dimension;
-    if (dimension < 4 || dimension > 10) {
-        std::cout << "Wrong dimention! (Dimention should be between 4 and 10)";
-        std::cout << std::endl;
-        gameMenu();
-    }
+    short dimension = enterDimension();
     
     // Board
     size_t moveCount = 0;
@@ -107,6 +92,26 @@ void startNewGame() {
     size_t** board = createBoard(dimension);
     addNumToBoard(board, moveCount);
     printBoard(board, dimension);
+}
+
+void printStartNewGameTitle() {
+    std::cout << std::endl;
+    std::cout << "-------------------2048 Game-----------------" << std::endl;
+}
+
+short enterDimension() {
+    std::cout << "Enter dimention (Dimention should be between 4 and 10): ";
+    short dimension;
+    std::cin >> dimension;
+
+    if (dimension < 4 || dimension > 10) {
+        std::cout << "Wrong dimention! (Dimention should be between 4 and 10)";
+        std::cout << std::endl;
+
+        gameMenu();
+    }
+
+    return dimension;
 }
 
 size_t** createBoard(short const dimension) {
@@ -184,8 +189,7 @@ void printBoard(size_t** board, short dimension) {
     std::cout << "-------------------------" << std::endl;
 }
 
-void leaderboard() {
-    // Print Leaderboard
+void printLeaderboard() {
     std::cout << std::endl;
     std::cout << "-------------------------------------------------------" << std::endl;
     std::cout << "| 1. " << LeaderboardName1 << ": " << LeaderboardPoints1 << std::endl;
