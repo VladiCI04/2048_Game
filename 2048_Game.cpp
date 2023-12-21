@@ -31,6 +31,12 @@ void addNumToBoard(size_t** board, size_t moveCount);
 short randomIndexGenerator();
 short randomNumberGenerator(size_t moveCount);
 void printBoard(size_t** board, short dimension);
+void playGame(size_t** board, short const dimension, size_t& moveCount);
+bool isBoardFull(size_t** board, short const dimension);
+void moveUp(size_t** board, short const dimension);
+void moveLeft(size_t** board, short const dimension);
+void moveDown(size_t** board, short const dimension);
+void moveRight(size_t** board, short const dimension);
 void printLeaderboard();
 
 int main()
@@ -88,10 +94,10 @@ void startNewGame() {
     
     // Board
     size_t moveCount = 0;
-    dimension *= 2;
     size_t** board = createBoard(dimension);
     addNumToBoard(board, moveCount);
     printBoard(board, dimension);
+    playGame(board, dimension, moveCount);
 }
 
 void printStartNewGameTitle() {
@@ -187,6 +193,63 @@ void printBoard(size_t** board, short dimension) {
         }
     }
     std::cout << "-------------------------" << std::endl;
+}
+
+void playGame(size_t** board, short const dimension, size_t& moveCount) {
+    while (!isBoardFull(board, dimension)) {
+        std::cout << std::endl;
+        std::cout << "Enter diretction (Direction should be w, a, s or d): " << std::endl;
+        char direction;
+        std::cin >> direction;
+
+        if (direction == 'w') {
+            moveUp(board, dimension);
+        } 
+        else if (direction == 'a') {
+
+        } 
+        else if (direction == 's') {
+
+        } 
+        else if (direction == 'd') {
+
+        }
+        else {
+            std::cout << std::endl;
+            std::cout << "Wrong direction! (Direction should be w, a, s or d): " << std::endl;
+            return;
+        }
+
+        moveCount++;
+    }
+}
+
+bool isBoardFull(size_t** board, short const dimension) {
+    for (size_t row = 0; row < dimension; row++) {
+        for (size_t col = 0; col < dimension; col++) {
+            if (board[row][col] == 0) {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+void moveUp(size_t** board, short const dimension) {
+
+}
+
+void moveLeft(size_t** board, short const dimension) {
+
+}
+
+void moveDown(size_t** board, short const dimension) {
+
+}
+
+void moveRight(size_t** board, short const dimension) {
+
 }
 
 void printLeaderboard() {
