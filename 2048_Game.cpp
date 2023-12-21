@@ -206,13 +206,13 @@ void playGame(size_t** board, short const dimension, size_t& moveCount) {
             moveUp(board, dimension);
         } 
         else if (direction == 'a') {
-
+            moveLeft(board, dimension);
         } 
         else if (direction == 's') {
-
+            moveDown(board, dimension);
         } 
         else if (direction == 'd') {
-
+            moveRight(board, dimension);
         }
         else {
             std::cout << std::endl;
@@ -221,13 +221,17 @@ void playGame(size_t** board, short const dimension, size_t& moveCount) {
         }
 
         moveCount++;
+        addNumToBoard(board, moveCount);
+        printBoard(board, dimension);
     }
 }
 
 bool isBoardFull(size_t** board, short const dimension) {
     for (size_t row = 0; row < dimension; row++) {
         for (size_t col = 0; col < dimension; col++) {
-            if (board[row][col] == 0) {
+            size_t element = board[row][col];
+
+            if (element == 0) {
                 return false;
             }
         }
@@ -237,19 +241,51 @@ bool isBoardFull(size_t** board, short const dimension) {
 }
 
 void moveUp(size_t** board, short const dimension) {
-
+    for (size_t row = 1; row < dimension; row++) {
+        for (size_t col = 0; col < dimension; col++) {
+            size_t element = board[row][col];
+            
+            if (element != 0) {
+                board[row - 1][col] += element;
+            }
+        }
+    }
 }
 
 void moveLeft(size_t** board, short const dimension) {
+    for (size_t row = 0; row < dimension; row++) {
+        for (size_t col = 1; col < dimension; col++) {
+            size_t element = board[row][col];
 
+            if (element != 0) {
+                board[row][col - 1] += element;
+            }
+        }
+    }
 }
 
 void moveDown(size_t** board, short const dimension) {
+    for (size_t row = 0; row < dimension - 1; row++) {
+        for (size_t col = 0; col < dimension; col++) {
+            size_t element = board[row][col];
 
+            if (element != 0) {
+                board[row + 1][col] += element;
+            }
+        }
+    }
 }
 
 void moveRight(size_t** board, short const dimension) {
+    for (size_t row = 0; row < dimension; row++) {
+        for (size_t col = 0; col < dimension - 1; col++) {
+            size_t element = board[row][col];
 
+            if (element != 0) {
+                board[row][col + 1] += element;
+            }
+        }
+    }
 }
 
 void printLeaderboard() {
