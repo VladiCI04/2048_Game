@@ -185,11 +185,8 @@ unsigned short randomNumberGenerator(unsigned int moveCount) {
     else if (randomNumber == 2) {
         num = 4;
     }
-    else if (randomNumber == 3 && moveCount >= 8) {
+    else if (randomNumber == 3) {
         num = 8;
-    }
-    else {
-        randomNumberGenerator(moveCount);
     }
 
     return num;
@@ -369,7 +366,8 @@ bool moveLeft(unsigned int** board, unsigned short const dimension) {
 bool moveDown(unsigned int** board, unsigned short const dimension) {
     bool isElement2048 = false;
 
-    for (unsigned short row = 0; row < dimension - 1; row++) {
+    short row = dimension - 2;
+    while (row >= 0) {
         for (unsigned short col = 0; col < dimension; col++) {
             unsigned int element = board[row][col];
 
@@ -412,6 +410,8 @@ bool moveDown(unsigned int** board, unsigned short const dimension) {
                 return isElement2048;
             }
         }
+
+        row--;
     }
 
     return isElement2048;
@@ -421,10 +421,13 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
     bool isElement2048 = false;
 
     for (unsigned short row = 0; row < dimension; row++) {
-        for (unsigned short col = 0; col < dimension - 1; col++) {
+        short col = dimension - 2;
+
+        while (col >= 0) {
             unsigned int element = board[row][col];
            
             if (element == 0) {
+                col--;
                 continue;
             }
 
@@ -462,6 +465,8 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
                 isElement2048 = true;
                 return isElement2048;
             }
+
+            col--;
         }
     }
 
