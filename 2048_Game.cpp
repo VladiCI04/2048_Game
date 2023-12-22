@@ -178,20 +178,21 @@ unsigned short randomNumberGenerator(unsigned int moveCount) {
 
     // Generate a random number
     unsigned short randomNumber = distribution(generator);
+    unsigned short num = 0;
     if (randomNumber == 1) {
-        randomNumber = 2;
+        num = 2;
     }
     else if (randomNumber == 2) {
-        randomNumber = 4;
+        num = 4;
     }
     else if (randomNumber == 3 && moveCount >= 8) {
-        randomNumber = 8;
+        num = 8;
     }
     else {
         randomNumberGenerator(moveCount);
     }
 
-    return randomNumber;
+    return num;
 }
 
 void printBoard(unsigned int** board, unsigned short dimension) {
