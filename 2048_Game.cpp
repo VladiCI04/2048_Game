@@ -260,14 +260,29 @@ bool moveUp(size_t** board, short const dimension) {
         for (size_t col = 0; col < dimension; col++) {
             size_t element = board[row][col];
             
-            if (element != 0) {
-                board[row - 1][col] += element;
-                board[row][col] = 0;
+            if (element == 0) {
+                continue;
+            }
 
-                size_t element2 = board[row - 1][col];
-                if (element2 >= 2048) {
-                    isElement2048 = true;
+            short i = 0;
+            while (true) {
+                if (board[i][col] == element) {
+                    board[i][col] += element;
+                    break;
                 }
+                else if (board[i][col] == 0) {
+                    board[i][col] = element;
+                    break;
+                }
+
+                i++;
+            }
+            board[row][col] = 0;
+
+            size_t element2 = board[i][col];
+            if (element2 >= 2048) {
+                isElement2048 = true;
+                return isElement2048;
             }
         }
     }
@@ -282,14 +297,29 @@ bool moveLeft(size_t** board, short const dimension) {
         for (size_t col = 1; col < dimension; col++) {
             size_t element = board[row][col];
 
-            if (element != 0) {
-                board[row][col - 1] += element;
-                board[row][col] = 0;
+            if (element == 0) {
+                continue;
+            }
 
-                size_t element2 = board[row][col - 1];
-                if (element2 >= 2048) {
-                    isElement2048 = true;
+            short i = 0;
+            while (true) {
+                if (board[row][i] == element) {
+                    board[row][i] += element;
+                    break;
                 }
+                else if (board[row][i] == 0) {
+                    board[row][i] = element;
+                    break;
+                }
+
+                i++;
+            }
+            board[row][col] = 0;
+
+            size_t element2 = board[row][i];
+            if (element2 >= 2048) {
+                isElement2048 = true;
+                return isElement2048;
             }
         }
     }
@@ -304,14 +334,29 @@ bool moveDown(size_t** board, short const dimension) {
         for (size_t col = 0; col < dimension; col++) {
             size_t element = board[row][col];
 
-            if (element != 0) {
-                board[row + 1][col] += element;
-                board[row][col] = 0;
+            if (element == 0) {
+                continue;
+            }
 
-                size_t element2 = board[row + 1][col];
-                if (element2 >= 2048) {
-                    isElement2048 = true;
+            short i = dimension - 1;
+            while (true) {
+                if (board[i][col] == element) {
+                    board[i][col] += element;
+                    break;
                 }
+                else if (board[i][col] == 0) {
+                    board[i][col] = element;
+                    break;
+                }
+
+                i--;
+            }
+            board[row][col] = 0;
+
+            size_t element2 = board[i][col];
+            if (element2 >= 2048) {
+                isElement2048 = true;
+                return isElement2048;
             }
         }
     }
@@ -325,15 +370,30 @@ bool moveRight(size_t** board, short const dimension) {
     for (size_t row = 0; row < dimension; row++) {
         for (size_t col = 0; col < dimension - 1; col++) {
             size_t element = board[row][col];
+           
+            if (element == 0) {
+                continue;
+            }
+
+            short i = dimension - 1;
+            while (true) {
+                if (board[row][i] == element) {
+                    board[row][i] += element;
+                    break;
+                }
+                else if (board[row][i] == 0) {
+                    board[row][i] = element;
+                    break;
+                }
+
+                i--;
+            }
             board[row][col] = 0;
 
-            if (element != 0) {
-                board[row][col + 1] += element;
-
-                size_t element2 = board[row][col + 1];
-                if (element2 >= 2048) {
-                    isElement2048 = true;
-                }
+            size_t element2 = board[row][i];
+            if (element2 >= 2048) {
+                isElement2048 = true;
+                return isElement2048;
             }
         }
     }
