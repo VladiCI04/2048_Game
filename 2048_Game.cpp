@@ -274,23 +274,28 @@ bool moveUp(unsigned int** board, unsigned short const dimension) {
                 continue;
             }
 
-            unsigned short i = 0;
+            unsigned short i = row - 1;
             bool shouldRemove = true;
             while (true) {
-                if (i == row) {
-                    shouldRemove = false;
-                    break;
-                }
-                else if (board[i][col] == element) {
+                unsigned int element2 = board[i][col];
+
+                if (element2 == element) {
                     board[i][col] += element;
                     break;
                 }
-                else if (board[i][col] == 0) {
-                    board[i][col] = element;
+                else if (element2 != 0) {
+                    board[i + 1][col] = element;
+                    if (i + 1 == row) {
+                        shouldRemove = false;
+                    }
+                    break;
+                }
+                else if (i == 0) {
+                    board[i][col] = element; 
                     break;
                 }
 
-                i++;
+                i--;
             }
 
             if (shouldRemove)
@@ -320,23 +325,28 @@ bool moveLeft(unsigned int** board, unsigned short const dimension) {
                 continue;
             }
 
-            unsigned short i = 0;
+            unsigned short i = col - 1;
             bool shouldRemove = true;
             while (true) {
-                if (i == col) {
-                    shouldRemove = false;
-                    break;
-                }
-                else if (board[row][i] == element) {
+                unsigned int element2 = board[row][i];
+
+                if (element2 == element) {
                     board[row][i] += element;
                     break;
                 }
-                else if (board[row][i] == 0) {
+                else if (element2 != 0) {
+                    board[row][i + 1] = element;
+                    if (i + 1 == col) {
+                        shouldRemove = false;
+                    }
+                    break;
+                }
+                else if (i == 0) {
                     board[row][i] = element;
                     break;
                 }
 
-                i++;
+                i--;
             }
 
             if (shouldRemove)
@@ -366,23 +376,28 @@ bool moveDown(unsigned int** board, unsigned short const dimension) {
                 continue;
             }
 
-            unsigned short i = dimension - 1;
+            unsigned short i = row + 1;
             bool shouldRemove = true;
             while (true) {
-                if (i == row) {
-                    shouldRemove = false;
-                    break;
-                }
-                else if (board[i][col] == element) {
+                unsigned int element2 = board[i][col];
+
+                if (element2 == element) {
                     board[i][col] += element;
                     break;
                 }
-                else if (board[i][col] == 0) {
+                else if (element2 != 0) {
+                    board[i - 1][col] = element;
+                    if (i - 1 == row) {
+                        shouldRemove = false;
+                    }
+                    break;
+                }
+                else if (i == dimension - 1) {
                     board[i][col] = element;
                     break;
                 }
 
-                i--;
+                i++;
             }
             
             if (shouldRemove)
@@ -412,22 +427,28 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
                 continue;
             }
 
-            unsigned short i = dimension - 1;
+            unsigned short i = col + 1;
             bool shouldRemove = true;
             while (true) {
-                if (i == col) {
-                    break;
-                }
-                else if (board[row][i] == element) {
+                unsigned int element2 = board[row][i];
+
+                if (element2 == element) {
                     board[row][i] += element;
                     break;
                 }
-                else if (board[row][i] == 0) {
+                else if (element2 != 0) {
+                    board[row][i - 1] = element;
+                    if (i - 1 == col) {
+                        shouldRemove = false;
+                    }
+                    break;
+                }
+                else if (i == dimension - 1) {
                     board[row][i] = element;
                     break;
                 }
 
-                i--;
+                i++;
             }
            
             if (shouldRemove)
