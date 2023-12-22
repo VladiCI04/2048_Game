@@ -26,17 +26,17 @@ void printGameMenu();
 void startNewGame();
 void printStartNewGameTitle();
 short enterDimension();
-size_t** createBoard(short const dimension);
-void addNumToBoard(size_t** board, size_t moveCount);
+int** createBoard(short const dimension);
+void addNumToBoard(int** board, int const moveCount);
 short randomIndexGenerator();
-short randomNumberGenerator(size_t moveCount);
-void printBoard(size_t** board, short dimension);
-void playGame(size_t** board, short const dimension, size_t& moveCount);
-bool isBoardFull(size_t** board, short const dimension);
-bool moveUp(size_t** board, short const dimension);
-bool moveLeft(size_t** board, short const dimension);
-bool moveDown(size_t** board, short const dimension);
-bool moveRight(size_t** board, short const dimension);
+short randomNumberGenerator(int const moveCount);
+void printBoard(int** board, short dimension);
+void playGame(int** board, short const dimension, int& moveCount);
+bool isBoardFull(int** board, short const dimension);
+bool moveUp(int** board, short const dimension);
+bool moveLeft(int** board, short const dimension);
+bool moveDown(int** board, short const dimension);
+bool moveRight(int** board, short const dimension);
 void printLeaderboard();
 
 int main()
@@ -93,8 +93,8 @@ void startNewGame() {
     short dimension = enterDimension();
     
     // Board
-    size_t moveCount = 0;
-    size_t** board = createBoard(dimension);
+    int moveCount = 0;
+    int** board = createBoard(dimension);
     addNumToBoard(board, moveCount);
     printBoard(board, dimension);
     playGame(board, dimension, moveCount);
@@ -106,7 +106,7 @@ void printStartNewGameTitle() {
 }
 
 short enterDimension() {
-    std::cout << "Enter dimention (Dimention should be between 4 and 10): ";
+    std::cout << "Enter dimension (Dimention should be between 4 and 10): ";
     short dimension;
     std::cin >> dimension;
 
@@ -120,11 +120,11 @@ short enterDimension() {
     return dimension;
 }
 
-size_t** createBoard(short const dimension) {
-    size_t** board = new size_t * [dimension];
+int** createBoard(short const dimension) {
+    int** board = new int*[dimension];
 
-    for (size_t row = 0; row < dimension; row++) {
-        for (size_t col = 0; col < dimension; col++) {
+    for (int row = 0; row < dimension; row++) {
+        for (int col = 0; col < dimension; col++) {
             board[row][col] = 0;
         }
     }
@@ -132,7 +132,7 @@ size_t** createBoard(short const dimension) {
     return board;
 }
 
-void addNumToBoard(size_t** board, size_t moveCount) {
+void addNumToBoard(int** board, int const moveCount) {
     short randRow = randomIndexGenerator();
     short randCol = randomIndexGenerator();
 
@@ -159,7 +159,7 @@ short randomIndexGenerator() {
     return randomNumber;
 }
 
-short randomNumberGenerator(size_t moveCount) {
+short randomNumberGenerator(int moveCount) {
     // Create a random number engine
     std::random_device random;
     std::mt19937 generator(random());
@@ -185,17 +185,17 @@ short randomNumberGenerator(size_t moveCount) {
     return randomNumber;
 }
 
-void printBoard(size_t** board, short dimension) {
+void printBoard(int** board, short dimension) {
     std::cout << "----------Board----------" << std::endl;
-    for (size_t row = 0; row < dimension; row++) {
-        for (size_t col = 0; col < dimension; col++) {
+    for (int row = 0; row < dimension; row++) {
+        for (int col = 0; col < dimension; col++) {
             std::cout << board[row][col] << ' ';
         }
     }
     std::cout << "-------------------------" << std::endl;
 }
 
-void playGame(size_t** board, short const dimension, size_t& moveCount) {
+void playGame(int** board, short const dimension, int& moveCount) {
     bool isWin = false;
 
     while (!isBoardFull(board, dimension)) {
@@ -239,10 +239,10 @@ void playGame(size_t** board, short const dimension, size_t& moveCount) {
     }
 }
 
-bool isBoardFull(size_t** board, short const dimension) {
-    for (size_t row = 0; row < dimension; row++) {
-        for (size_t col = 0; col < dimension; col++) {
-            size_t element = board[row][col];
+bool isBoardFull(int** board, short const dimension) {
+    for (int row = 0; row < dimension; row++) {
+        for (int col = 0; col < dimension; col++) {
+            int element = board[row][col];
 
             if (element == 0) {
                 return false;
@@ -253,12 +253,12 @@ bool isBoardFull(size_t** board, short const dimension) {
     return true;
 }
 
-bool moveUp(size_t** board, short const dimension) {
+bool moveUp(int** board, short const dimension) {
     bool isElement2048 = false;
 
-    for (size_t row = 1; row < dimension; row++) {
-        for (size_t col = 0; col < dimension; col++) {
-            size_t element = board[row][col];
+    for (int row = 1; row < dimension; row++) {
+        for (int col = 0; col < dimension; col++) {
+            int element = board[row][col];
             
             if (element == 0) {
                 continue;
@@ -279,7 +279,7 @@ bool moveUp(size_t** board, short const dimension) {
             }
             board[row][col] = 0;
 
-            size_t element2 = board[i][col];
+            int element2 = board[i][col];
             if (element2 >= 2048) {
                 isElement2048 = true;
                 return isElement2048;
@@ -290,12 +290,12 @@ bool moveUp(size_t** board, short const dimension) {
     return isElement2048;
 }
 
-bool moveLeft(size_t** board, short const dimension) {
+bool moveLeft(int** board, short const dimension) {
     bool isElement2048 = false;
 
-    for (size_t row = 0; row < dimension; row++) {
-        for (size_t col = 1; col < dimension; col++) {
-            size_t element = board[row][col];
+    for (int row = 0; row < dimension; row++) {
+        for (int col = 1; col < dimension; col++) {
+            int element = board[row][col];
 
             if (element == 0) {
                 continue;
@@ -316,7 +316,7 @@ bool moveLeft(size_t** board, short const dimension) {
             }
             board[row][col] = 0;
 
-            size_t element2 = board[row][i];
+            int element2 = board[row][i];
             if (element2 >= 2048) {
                 isElement2048 = true;
                 return isElement2048;
@@ -327,12 +327,12 @@ bool moveLeft(size_t** board, short const dimension) {
     return isElement2048;
 }
 
-bool moveDown(size_t** board, short const dimension) {
+bool moveDown(int** board, short const dimension) {
     bool isElement2048 = false;
 
-    for (size_t row = 0; row < dimension - 1; row++) {
-        for (size_t col = 0; col < dimension; col++) {
-            size_t element = board[row][col];
+    for (int row = 0; row < dimension - 1; row++) {
+        for (int col = 0; col < dimension; col++) {
+            int element = board[row][col];
 
             if (element == 0) {
                 continue;
@@ -353,7 +353,7 @@ bool moveDown(size_t** board, short const dimension) {
             }
             board[row][col] = 0;
 
-            size_t element2 = board[i][col];
+            int element2 = board[i][col];
             if (element2 >= 2048) {
                 isElement2048 = true;
                 return isElement2048;
@@ -364,12 +364,12 @@ bool moveDown(size_t** board, short const dimension) {
     return isElement2048;
 }
 
-bool moveRight(size_t** board, short const dimension) {
+bool moveRight(int** board, short const dimension) {
     bool isElement2048 = false;
 
-    for (size_t row = 0; row < dimension; row++) {
-        for (size_t col = 0; col < dimension - 1; col++) {
-            size_t element = board[row][col];
+    for (int row = 0; row < dimension; row++) {
+        for (int col = 0; col < dimension - 1; col++) {
+            int element = board[row][col];
            
             if (element == 0) {
                 continue;
@@ -390,7 +390,7 @@ bool moveRight(size_t** board, short const dimension) {
             }
             board[row][col] = 0;
 
-            size_t element2 = board[row][i];
+            int element2 = board[row][i];
             if (element2 >= 2048) {
                 isElement2048 = true;
                 return isElement2048;
