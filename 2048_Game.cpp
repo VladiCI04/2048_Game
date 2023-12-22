@@ -194,14 +194,76 @@ unsigned short randomNumberGenerator(unsigned int moveCount) {
 }
 
 void printBoard(unsigned int** board, unsigned short dimension) {
-    std::cout << "------------------------------Board-----------------------------" << std::endl << std::endl;
-    for (unsigned short row = 0; row < dimension; row++) {
-        for (unsigned short col = 0; col < dimension; col++) {
-            std::cout << std::setw(6) << board[row][col] << std::setw(6);
+    if (dimension == 4) {
+        std::cout << "------------Board-----------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
         }
-        std::cout << std::endl << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
-    std::cout << "------------------------------------------------------------------" << std::endl;
+    else if (dimension == 5) {
+        std::cout << "---------------Board--------------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "----------------------------------" << std::endl;
+    }
+    else if (dimension == 6) {
+        std::cout << "------------------Board-----------------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "----------------------------------------" << std::endl;    
+    }
+    else if (dimension == 7) {
+        std::cout << "---------------------Board--------------------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "----------------------------------------------" << std::endl;
+        }
+    else if (dimension == 8) {
+        std::cout << "------------------------Board-----------------------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "----------------------------------------------------" << std::endl;
+    }
+    else if (dimension == 9) {
+        std::cout << "---------------------------Board--------------------------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "----------------------------------------------------------" << std::endl;
+    }
+    else if (dimension == 10) {
+        std::cout << "------------------------------Board-----------------------------" << std::endl << std::endl;
+        for (unsigned short row = 0; row < dimension; row++) {
+            for (unsigned short col = 0; col < dimension; col++) {
+                std::cout << std::setw(6) << board[row][col] << std::setw(6);
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "----------------------------------------------------------------" << std::endl;
+    }
 }
 
 void playGame(unsigned int** board, unsigned short const dimension, unsigned int& moveCount) {
@@ -246,6 +308,12 @@ void playGame(unsigned int** board, unsigned short const dimension, unsigned int
     else {
         std::cout << "You lose! Try again!" << std::endl;
     }
+
+    for (unsigned short row = 0; row < dimension; row++) {
+        delete[] board[row];
+    }
+
+    delete[] board;
 }
 
 bool isBoardFull(unsigned int** board, unsigned short const dimension) {
@@ -297,8 +365,7 @@ bool moveUp(unsigned int** board, unsigned short const dimension) {
                 i--;
             }
 
-            if (shouldRemove)
-            {
+            if (shouldRemove) {
                 board[row][col] = 0;
             }
 
@@ -348,8 +415,7 @@ bool moveLeft(unsigned int** board, unsigned short const dimension) {
                 i--;
             }
 
-            if (shouldRemove)
-            {
+            if (shouldRemove) {
                 board[row][col] = 0;
             }
 
@@ -400,8 +466,7 @@ bool moveDown(unsigned int** board, unsigned short const dimension) {
                 i++;
             }
             
-            if (shouldRemove)
-            {
+            if (shouldRemove) {
                 board[row][col] = 0;
             }
 
@@ -456,8 +521,7 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
                 i++;
             }
            
-            if (shouldRemove)
-            {
+            if (shouldRemove) {
                 board[row][col] = 0;
             }
 
