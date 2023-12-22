@@ -60,6 +60,7 @@ void gameMenu() {
         printLeaderboard();
     } 
     else if (answer == 3) {  // Quit
+        std::cout << std::endl << "Goodbye!" << std::endl << std::endl;
         return;
     }  
     else {  // Wrong Input
