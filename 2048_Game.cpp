@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <iomanip>
 
 // Program Consts
 short const MAX_INPUT_SIZE = 100;
@@ -193,14 +194,14 @@ unsigned short randomNumberGenerator(unsigned int moveCount) {
 }
 
 void printBoard(unsigned int** board, unsigned short dimension) {
-    std::cout << "-------Board-------" << std::endl;
+    std::cout << "------------------------------Board-----------------------------" << std::endl << std::endl;
     for (unsigned short row = 0; row < dimension; row++) {
         for (unsigned short col = 0; col < dimension; col++) {
-            std::cout << board[row][col] << ' ';
+            std::cout << std::setw(6) << board[row][col] << std::setw(6);
         }
-        std::cout << std::endl;
+        std::cout << std::endl << std::endl;
     }
-    std::cout << "-------------------" << std::endl;
+    std::cout << "------------------------------------------------------------------" << std::endl;
 }
 
 void playGame(unsigned int** board, unsigned short const dimension, unsigned int& moveCount) {
