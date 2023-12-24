@@ -41,8 +41,8 @@ bool moveUp(unsigned int** board, unsigned short const dimension);
 bool moveLeft(unsigned int** board, unsigned short const dimension);
 bool moveDown(unsigned int** board, unsigned short const dimension);
 bool moveRight(unsigned int** board, unsigned short const dimension);
-void addPlayerToLeaderboard(unsigned const int** const board, unsigned const char* const playerName, unsigned short const dimension);
-unsigned int playerPoints(unsigned const int** const board, unsigned short dimension);
+void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, unsigned short const dimension);
+unsigned int playerPoints(unsigned int** board, unsigned short dimension);
 void leaderboard();
 void printLeaderboard(unsigned short const dimension);
 
@@ -546,7 +546,7 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
     return isElement2048;
 }
 
-void addPlayerToLeaderboard(unsigned const int** const board, unsigned const char* const playerName, unsigned short const dimension) {
+void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, unsigned short const dimension) {
     std::string fileName = "Leaderboard" + std::to_string(dimension) + 'x' + std::to_string(dimension) + ".txt"; 
     std::ofstream outputFile(fileName);
 
@@ -565,7 +565,7 @@ void addPlayerToLeaderboard(unsigned const int** const board, unsigned const cha
     outputFile.close();
 }
 
-unsigned int playerPoints(unsigned const int** const board, unsigned short dimension) {
+unsigned int playerPoints(unsigned int** board, unsigned short dimension) {
     unsigned int sumPlayerPoints = 0;
     
     for (unsigned short row = 0; row < dimension; row++) {
@@ -618,8 +618,8 @@ void printLeaderboard(unsigned short const dimension) {
     unsigned short count = 1;
     std::cout << "-------------------------------------------------------" << std::endl;
     // Read and print each line from the file
-    while (std::getline(inputFile, line)) {
-        std::cout << "| " << count << ". " << line << std::endl;
+    for (unsigned short i = 0; i < lines.size(); i++) {
+        std::cout << "| " << count << ". " << lines[i] << std::endl;
         count++;
 
         if (count > 5) {
