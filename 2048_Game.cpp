@@ -3,26 +3,9 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
-#include <vector>
 
 // Program Consts
 short const MAX_INPUT_SIZE = 100;
-
-// Global Variables
-char LeaderboardName1[] = "Unknown"; // Leaderboard1
-size_t LeaderboardPoints1 = 0;
-
-char LeaderboardName2[] = "Unknown"; // Leaderboard2
-size_t LeaderboardPoints2 = 0;
-
-char LeaderboardName3[] = "Unknown"; // Leaderboard3
-size_t LeaderboardPoints3 = 0;
-
-char LeaderboardName4[] = "Unknown"; // Leaderboard4
-size_t LeaderboardPoints4 = 0;
-
-char LeaderboardName5[] = "Unknown"; // Leaderboard5
-size_t LeaderboardPoints5 = 0;
 
 // Function Declaration
 void gameMenu();
@@ -43,6 +26,7 @@ bool moveDown(unsigned int** board, unsigned short const dimension);
 bool moveRight(unsigned int** board, unsigned short const dimension);
 void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, unsigned short const dimension);
 unsigned int playerPoints(unsigned int** board, unsigned short dimension);
+void deleteHeap(unsigned int** board, unsigned short const dimension);
 void leaderboard();
 void printLeaderboard(unsigned short const dimension);
 
@@ -107,6 +91,7 @@ void startNewGame() {
     printBoard(board, dimension);
     playGame(board, dimension, moveCount);
     addPlayerToLeaderboard(board, playerName, dimension);
+    gameMenu();
 }
 
 void printStartNewGameTitle() {
@@ -316,12 +301,6 @@ void playGame(unsigned int** board, unsigned short const dimension, unsigned int
     else {
         std::cout << "You lose! Try again!" << std::endl;
     }
-
-    for (unsigned short row = 0; row < dimension; row++) {
-        delete[] board[row];
-    }
-
-    delete[] board;
 }
 
 bool isBoardFull(unsigned int** board, unsigned short const dimension) {
@@ -548,7 +527,7 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
 
 void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, unsigned short const dimension) {
     std::string fileName = "Leaderboard" + std::to_string(dimension) + 'x' + std::to_string(dimension) + ".txt"; 
-    std::ofstream outputFile(fileName);
+    std::ofstream outputFile(fileName, std::ios::app);
 
     // Check if the file is open
     if (!outputFile.is_open()) {
@@ -578,7 +557,17 @@ unsigned int playerPoints(unsigned int** board, unsigned short dimension) {
         }
     }
 
+    deleteHeap(board, dimension);
+
     return sumPlayerPoints;
+}
+
+void deleteHeap(unsigned int** board, unsigned short const dimension) {
+    for (unsigned short row = 0; row < dimension; row++) {
+        delete[] board[row];
+    }
+
+    delete[] board;
 }
 
 void leaderboard() {
@@ -594,6 +583,8 @@ void leaderboard() {
         std::cout << "Wrong dimension! Dimension should be 4, 5, 6, 7, 8, 9 or 10!" << std::endl;
         leaderboard();
     }
+
+    gameMenu();
 }
 
 void printLeaderboard(unsigned short const dimension) {
@@ -616,7 +607,8 @@ void printLeaderboard(unsigned short const dimension) {
     std::sort(lines.begin(), lines.end());
 
     unsigned short count = 1;
-    std::cout << "-------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "----------------------Leaderboard----------------------" << std::endl;
     // Read and print each line from the file
     for (unsigned short i = 0; i < lines.size(); i++) {
         std::cout << "| " << count << ". " << lines[i] << std::endl;
