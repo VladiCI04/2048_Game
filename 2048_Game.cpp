@@ -1,6 +1,9 @@
 #include <iostream>
 #include <random>
 #include <iomanip>
+#include <fstream>
+#include <string>
+#include <vector>
 
 // Program Consts
 short const MAX_INPUT_SIZE = 100;
@@ -38,7 +41,10 @@ bool moveUp(unsigned int** board, unsigned short const dimension);
 bool moveLeft(unsigned int** board, unsigned short const dimension);
 bool moveDown(unsigned int** board, unsigned short const dimension);
 bool moveRight(unsigned int** board, unsigned short const dimension);
-void printLeaderboard();
+void addPlayerToLeaderboard(unsigned const int** const board, unsigned const char* const playerName, unsigned short const dimension);
+unsigned int playerPoints(unsigned const int** const board, unsigned short dimension);
+void leaderboard();
+void printLeaderboard(unsigned short const dimension);
 
 int main()
 {
@@ -57,7 +63,7 @@ void gameMenu() {
         startNewGame();
     }
     else if (answer == 2) {  // Leaderboard
-        printLeaderboard();
+        leaderboard();
     } 
     else if (answer == 3) {  // Quit
         std::cout << std::endl << "Goodbye!" << std::endl << std::endl;
@@ -100,6 +106,7 @@ void startNewGame() {
     addNumToBoard(board, moveCount, dimension);
     printBoard(board, dimension);
     playGame(board, dimension, moveCount);
+    addPlayerToLeaderboard(board, playerName, dimension);
 }
 
 void printStartNewGameTitle() {
@@ -539,14 +546,89 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
     return isElement2048;
 }
 
-void printLeaderboard() {
+void addPlayerToLeaderboard(unsigned const int** const board, unsigned const char* const playerName, unsigned short const dimension) {
+    std::string fileName = "Leaderboard" + std::to_string(dimension) + 'x' + std::to_string(dimension) + ".txt"; 
+    std::ofstream outputFile(fileName);
+
+    // Check if the file is open
+    if (!outputFile.is_open()) {
+        std::cerr << "Error opening the file." << std::endl;
+        return;
+    }
+
+    unsigned int sumPlayerPoints = playerPoints(board, dimension);
+
+    // Write data to the file
+    outputFile << playerName << " - " << sumPlayerPoints << std::endl;
+
+    // Close the file
+    outputFile.close();
+}
+
+unsigned int playerPoints(unsigned const int** const board, unsigned short dimension) {
+    unsigned int sumPlayerPoints = 0;
+    
+    for (unsigned short row = 0; row < dimension; row++) {
+        for (unsigned short col = 0; col < dimension; col++) {
+            unsigned int element = board[row][col];
+
+            if (element != 0) {
+                sumPlayerPoints += element;
+            }
+        }
+    }
+
+    return sumPlayerPoints;
+}
+
+void leaderboard() {
     std::cout << std::endl;
+    unsigned short dimension;
+    std::cout << "Enter Leaderboard dimension (Dimension should be between 4 and 10): ";
+    std::cin >> dimension;
+
+    if (dimension >= 4 && dimension <= 10) {
+        printLeaderboard(dimension);
+    }
+    else {
+        std::cout << "Wrong dimension! Dimension should be 4, 5, 6, 7, 8, 9 or 10!" << std::endl;
+        leaderboard();
+    }
+}
+
+void printLeaderboard(unsigned short const dimension) {
+    std::string fileName = "Leaderboard" + std::to_string(dimension) + 'x' + std::to_string(dimension) + ".txt";
+    std::ifstream inputFile(fileName);
+
+    // Check if the file is open
+    if (!inputFile.is_open()) {
+        std::cerr << "Error opening the file." << std::endl;
+        return;
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        lines.push_back(line);
+    }
+
+    // Sort the vector
+    std::sort(lines.begin(), lines.end());
+
+    unsigned short count = 1;
     std::cout << "-------------------------------------------------------" << std::endl;
-    std::cout << "| 1. " << LeaderboardName1 << ": " << LeaderboardPoints1 << std::endl;
-    std::cout << "| 2. " << LeaderboardName2 << ": " << LeaderboardPoints2 << std::endl;
-    std::cout << "| 3. " << LeaderboardName3 << ": " << LeaderboardPoints3 << std::endl;
-    std::cout << "| 4. " << LeaderboardName4 << ": " << LeaderboardPoints4 << std::endl;
-    std::cout << "| 5. " << LeaderboardName5 << ": " << LeaderboardPoints5 << std::endl;
+    // Read and print each line from the file
+    while (std::getline(inputFile, line)) {
+        std::cout << "| " << count << ". " << line << std::endl;
+        count++;
+
+        if (count > 5) {
+            break;
+        }
+    }
     std::cout << "-------------------------------------------------------" << std::endl;
     std::cout << std::endl;
+
+    // Close the file
+    inputFile.close();
 }
