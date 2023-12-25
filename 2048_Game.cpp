@@ -54,7 +54,9 @@ void gameMenu() {
         return;
     }  
     else {  // Wrong Input
-        std::cout << "Wrong input! (Answer should be 1, 2 or 3)";
+        std::cout << std::endl;
+        std::cout << "Wrong input! (Answer should be 1, 2 or 3)" << std::endl;
+        return;
     }
 
     // Back In Game Menu
@@ -538,7 +540,7 @@ void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, uns
     unsigned int sumPlayerPoints = playerPoints(board, dimension);
 
     // Write data to the file
-    outputFile << playerName << " - " << sumPlayerPoints << std::endl;
+    outputFile << playerName << ' ' << sumPlayerPoints << std::endl;
 
     // Close the file
     outputFile.close();
@@ -597,26 +599,57 @@ void printLeaderboard(unsigned short const dimension) {
         return;
     }
 
-    std::vector<std::string> lines;
+    std::vector<unsigned int> numbers;
+    std::vector<unsigned int> numbers2;
+    std::vector<std::string> names;
     std::string line;
     while (std::getline(inputFile, line)) {
-        lines.push_back(line);
+        unsigned int i = 0;
+        if (line[i] == '\0') {
+            break;
+        }
+
+        std::string name;
+        while (line[i] != ' ') {
+            name += line[i];
+            i++;
+        }
+        i++;
+        names.push_back(name);
+
+        unsigned int number = 0;
+        while (line[i] != '\0') {
+            number = (number * 10) + (line[i] - '0');
+            i++;
+        }
+
+        numbers.push_back(number);
+        numbers2.push_back(number);
     }
 
     // Sort the vector
-    std::sort(lines.begin(), lines.end());
-
+    std::sort(numbers2.begin(), numbers2.end());
+    
+    unsigned short index2 = numbers2.size() - 1;
     unsigned short count = 1;
     std::cout << std::endl;
     std::cout << "----------------------Leaderboard----------------------" << std::endl;
     // Read and print each line from the file
-    for (unsigned short i = 0; i < lines.size(); i++) {
-        std::cout << "| " << count << ". " << lines[i] << std::endl;
-        count++;
+    while (count < 6 && !numbers2.empty() && index2 < numbers.size()) {
+        unsigned short index = 0;
 
-        if (count > 5) {
-            break;
+        while (true) {
+            if (numbers2[index2] == numbers[index]) {
+                std::cout << "| " << count << ". " << names[index] << " - " << numbers[index] << std::endl;
+                numbers[index] = 0;
+                break;
+            }
+
+            index++;
         }
+
+        index2--;
+        count++;
     }
     std::cout << "-------------------------------------------------------" << std::endl;
     std::cout << std::endl;
