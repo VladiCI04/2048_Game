@@ -17,7 +17,10 @@ unsigned int** createBoard(unsigned short const dimension);
 void addNumToBoard(unsigned int** board, unsigned int const moveCount, unsigned short const dimension);
 unsigned short randomIndexGenerator(unsigned short const dimension);
 unsigned short randomNumberGenerator(unsigned int const moveCount);
-void printBoard(unsigned int** board, unsigned short dimension);
+void printBoard(unsigned int** board, unsigned short const dimension);
+void printUpDashes(unsigned short const dimension);
+void printBody(unsigned int** board, unsigned short const dimension);
+void printDownDashes(unsigned short const dimension);
 void playGame(unsigned int** board, unsigned short const dimension, unsigned int& moveCount);
 bool isBoardFull(unsigned int** board, unsigned short const dimension);
 bool moveUp(unsigned int** board, unsigned short const dimension);
@@ -43,16 +46,16 @@ void gameMenu() {
     unsigned short answer;
     std::cin >> answer;
 
-    if (answer == 1 ) {  // Start New Game
+    if (answer == 1) {  // Start New Game
         startNewGame();
     }
     else if (answer == 2) {  // Leaderboard
         leaderboard();
-    } 
+    }
     else if (answer == 3) {  // Quit
         std::cout << std::endl << "Goodbye!" << std::endl << std::endl;
         return;
-    }  
+    }
     else {  // Wrong Input
         std::cout << std::endl;
         std::cout << "Wrong input! (Answer should be 1, 2 or 3)" << std::endl;
@@ -77,7 +80,7 @@ void printGameMenu() {
 void startNewGame() {
     // Start New Game Title
     printStartNewGameTitle();
-    
+
     // Enter Nickname
     std::cout << "Enter your nickname: ";
     unsigned char playerName[MAX_INPUT_SIZE];
@@ -85,7 +88,7 @@ void startNewGame() {
 
     // Enter Dimention
     unsigned short dimension = enterDimension();
-    
+
     // Board
     unsigned int moveCount = 0;
     unsigned int** board = createBoard(dimension);
@@ -118,7 +121,7 @@ unsigned short enterDimension() {
 
 unsigned int** createBoard(unsigned short const dimension) {
     // Allocate memory for an array of pointers (rows)
-    unsigned int** board = new unsigned int*[dimension];
+    unsigned int** board = new unsigned int* [dimension];
 
     // Allocate memory for each row
     for (unsigned short row = 0; row < dimension; row++) {
@@ -188,77 +191,44 @@ unsigned short randomNumberGenerator(unsigned int moveCount) {
     return num;
 }
 
-void printBoard(unsigned int** board, unsigned short dimension) {
-    if (dimension == 4) {
-        std::cout << "------------Board-----------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
-        }
-        std::cout << "----------------------------" << std::endl;
+void printBoard(unsigned int** board, unsigned short const dimension) {
+    printUpDashes(dimension);
+
+    printBody(board, dimension);
+
+    printDownDashes(dimension);
+}
+
+void printUpDashes(unsigned short const dimension) {
+    unsigned short dashes = dimension * 3;
+
+    for (unsigned short dash = 0; dash < dashes; dash++) {
+        std::cout << '-';
     }
-    else if (dimension == 5) {
-        std::cout << "---------------Board--------------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
-        }
-        std::cout << "----------------------------------" << std::endl;
+    std::cout << "Board";
+
+    for (unsigned short dash = 0; dash < dashes; dash++) {
+        std::cout << '-';
     }
-    else if (dimension == 6) {
-        std::cout << "------------------Board-----------------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
+    std::cout << std::endl << std::endl;
+}
+
+void printBody(unsigned int** board, unsigned short const dimension) {
+    for (unsigned short row = 0; row < dimension; row++) {
+        for (unsigned short col = 0; col < dimension; col++) {
+            std::cout << std::setw(6) << board[row][col];
         }
-        std::cout << "----------------------------------------" << std::endl;    
+        std::cout << std::endl << std::endl;
     }
-    else if (dimension == 7) {
-        std::cout << "---------------------Board--------------------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
-        }
-        std::cout << "----------------------------------------------" << std::endl;
-        }
-    else if (dimension == 8) {
-        std::cout << "------------------------Board-----------------------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
-        }
-        std::cout << "----------------------------------------------------" << std::endl;
+}
+
+void printDownDashes(unsigned short const dimension) {
+    unsigned short dashes = dimension * 7;
+
+    for (unsigned short dash = 0; dash < dashes; dash++) {
+        std::cout << '-';
     }
-    else if (dimension == 9) {
-        std::cout << "---------------------------Board--------------------------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
-        }
-        std::cout << "----------------------------------------------------------" << std::endl;
-    }
-    else if (dimension == 10) {
-        std::cout << "------------------------------Board-----------------------------" << std::endl << std::endl;
-        for (unsigned short row = 0; row < dimension; row++) {
-            for (unsigned short col = 0; col < dimension; col++) {
-                std::cout << std::setw(6) << board[row][col] << std::setw(6);
-            }
-            std::cout << std::endl << std::endl;
-        }
-        std::cout << "----------------------------------------------------------------" << std::endl;
-    }
+    std::cout << std::endl << std::endl;
 }
 
 void playGame(unsigned int** board, unsigned short const dimension, unsigned int& moveCount) {
@@ -272,13 +242,13 @@ void playGame(unsigned int** board, unsigned short const dimension, unsigned int
 
         if (direction == 'w') {
             isWin = moveUp(board, dimension);
-        } 
+        }
         else if (direction == 'a') {
             isWin = moveLeft(board, dimension);
-        } 
+        }
         else if (direction == 's') {
             isWin = moveDown(board, dimension);
-        } 
+        }
         else if (direction == 'd') {
             isWin = moveRight(board, dimension);
         }
@@ -296,7 +266,7 @@ void playGame(unsigned int** board, unsigned short const dimension, unsigned int
         addNumToBoard(board, moveCount, dimension);
         printBoard(board, dimension);
     }
-   
+
     if (isWin) {
         std::cout << "You win!" << std::endl;
     }
@@ -315,7 +285,7 @@ bool isBoardFull(unsigned int** board, unsigned short const dimension) {
             }
         }
     }
-    
+
     return true;
 }
 
@@ -325,7 +295,7 @@ bool moveUp(unsigned int** board, unsigned short const dimension) {
     for (unsigned short row = 1; row < dimension; row++) {
         for (unsigned short col = 0; col < dimension; col++) {
             unsigned int element = board[row][col];
-            
+
             if (element == 0) {
                 continue;
             }
@@ -347,7 +317,7 @@ bool moveUp(unsigned int** board, unsigned short const dimension) {
                     break;
                 }
                 else if (i == 0) {
-                    board[i][col] = element; 
+                    board[i][col] = element;
                     break;
                 }
 
@@ -454,7 +424,7 @@ bool moveDown(unsigned int** board, unsigned short const dimension) {
 
                 i++;
             }
-            
+
             if (shouldRemove) {
                 board[row][col] = 0;
             }
@@ -480,7 +450,7 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
 
         while (col >= 0) {
             unsigned int element = board[row][col];
-           
+
             if (element == 0) {
                 col--;
                 continue;
@@ -509,7 +479,7 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
 
                 i++;
             }
-           
+
             if (shouldRemove) {
                 board[row][col] = 0;
             }
@@ -528,7 +498,7 @@ bool moveRight(unsigned int** board, unsigned short const dimension) {
 }
 
 void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, unsigned short const dimension) {
-    std::string fileName = "Leaderboard" + std::to_string(dimension) + 'x' + std::to_string(dimension) + ".txt"; 
+    std::string fileName = "Leaderboard" + std::to_string(dimension) + 'x' + std::to_string(dimension) + ".txt";
     std::ofstream outputFile(fileName, std::ios::app);
 
     // Check if the file is open
@@ -548,7 +518,7 @@ void addPlayerToLeaderboard(unsigned int** board, unsigned char* playerName, uns
 
 unsigned int playerPoints(unsigned int** board, unsigned short dimension) {
     unsigned int sumPlayerPoints = 0;
-    
+
     for (unsigned short row = 0; row < dimension; row++) {
         for (unsigned short col = 0; col < dimension; col++) {
             unsigned int element = board[row][col];
@@ -602,8 +572,8 @@ void printLeaderboard(unsigned short const dimension) {
     std::vector<unsigned int> numbers;
     std::vector<unsigned int> numbers2;
     std::vector<std::string> names;
-    std::string line;
-    while (std::getline(inputFile, line)) {
+    char line[MAX_INPUT_SIZE + 1];
+    while (inputFile.getline(line, MAX_INPUT_SIZE)) {
         unsigned int i = 0;
         if (line[i] == '\0') {
             break;
@@ -629,7 +599,7 @@ void printLeaderboard(unsigned short const dimension) {
 
     // Sort the vector
     std::sort(numbers2.begin(), numbers2.end());
-    
+
     unsigned short index2 = numbers2.size() - 1;
     unsigned short count = 1;
     std::cout << std::endl;
