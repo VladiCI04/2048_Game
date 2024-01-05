@@ -565,7 +565,7 @@ void printLeaderboard(unsigned short const dimension) {
 
     // Check if the file is open
     if (!inputFile.is_open()) {
-        std::cerr << "Error opening the file." << std::endl;
+        std::cerr << "Leaderboard is empty." << std::endl;
         return;
     }
 
@@ -600,7 +600,7 @@ void printLeaderboard(unsigned short const dimension) {
     // Sort the vector
     std::sort(numbers2.begin(), numbers2.end());
 
-    unsigned short index2 = numbers2.size() - 1;
+    size_t index2 = numbers2.size() - 1;
     unsigned short count = 1;
     std::cout << std::endl;
     std::cout << "----------------------Leaderboard----------------------" << std::endl;
