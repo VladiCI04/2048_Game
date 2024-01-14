@@ -128,6 +128,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="2048_Game.cpp" />
+    <ClCompile Include="board.cpp" />
+    <ClCompile Include="deleteHeap.cpp" />
+    <ClCompile Include="gameEngine.cpp" />
+    <ClCompile Include="leaderboard.cpp" />
+    <ClCompile Include="moves.cpp" />
+    <ClCompile Include="newGame.cpp" />
+    <ClCompile Include="printConsole.cpp" />
+    <ClCompile Include="randomise.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="board.h" />
+    <ClInclude Include="deleteHeap.h" />
+    <ClInclude Include="gameEngine.h" />
+    <ClInclude Include="leaderboard.h" />
+    <ClInclude Include="moves.h" />
+    <ClInclude Include="newGame.h" />
+    <ClInclude Include="printConsole.h" />
+    <ClInclude Include="programConstants.h" />
+    <ClInclude Include="randomise.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
